@@ -1,16 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useMemoizedRoleAccess } from '@/hooks/useMemoizedRoleAccess';
 import MemberProfileCard from './MemberProfileCard';
 import SystemAnnouncements from './SystemAnnouncements';
 import PaymentDialog from './members/PaymentDialog';
 import PaymentHistoryTable from './PaymentHistoryTable';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { format } from 'date-fns';
 import { Loader2 } from 'lucide-react';
 
 const DashboardView = () => {
   const { toast } = useToast();
+  const { rolePermissions } = useMemoizedRoleAccess();
   const [isPaymentDialogOpen, setIsPaymentDialogOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -74,6 +76,11 @@ const DashboardView = () => {
     }
   });
 
+  const formattedTime = useMemo(() => ({
+    date: format(currentTime, 'EEEE, MMMM do yyyy'),
+    time: format(currentTime, 'h:mm:ss a')
+  }), [currentTime]);
+
   if (isLoading) {
     return (
       <div className="w-full h-[calc(100vh-16rem)] flex items-center justify-center">
@@ -105,10 +112,10 @@ const DashboardView = () => {
           </h1>
           <div className="flex flex-col items-end animate-fade-in">
             <p className="text-dashboard-accent1 font-medium">
-              {format(currentTime, 'EEEE, MMMM do yyyy')}
+              {formattedTime.date}
             </p>
             <p className="text-dashboard-accent2 text-lg">
-              {format(currentTime, 'h:mm:ss a')}
+              {formattedTime.time}
             </p>
           </div>
         </div>
