@@ -1,7 +1,12 @@
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import MembersListView from './members/list/MembersListView';
+import { useRoleStore } from "@/store/roleStore";
 
 const UsersView = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const { userRole } = useRoleStore();
+
   return (
     <div className="space-y-6">
       <header className="mb-8">
@@ -10,7 +15,11 @@ const UsersView = () => {
       </header>
 
       <Card className="p-6 bg-dashboard-card border-dashboard-cardBorder">
-        <MembersListView />
+        <MembersListView 
+          searchTerm={searchTerm}
+          userRole={userRole}
+          collectorInfo={null}
+        />
       </Card>
     </div>
   );
