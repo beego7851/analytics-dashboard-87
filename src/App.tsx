@@ -8,7 +8,10 @@ import { AlertCircle } from 'lucide-react';
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import Login from '@/pages/Login';
 import ResetPassword from '@/pages/ResetPassword';
-import Index from '@/pages/Index';
+import DashboardView from '@/components/DashboardView';
+import UsersView from '@/components/UsersView';
+import FinancialsView from '@/components/FinancialsView';
+import SystemToolsView from '@/components/SystemToolsView';
 import ProtectedRoutes from '@/components/routing/ProtectedRoutes';
 
 function App() {
@@ -91,10 +94,10 @@ function App() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/*" element={<ProtectedRoutes session={session} />}>
           <Route index element={<Navigate to="/dashboard" replace />} />
-          <Route path="dashboard" element={<Index />} />
-          <Route path="users" element={<Index />} />
-          <Route path="financials" element={<Index />} />
-          <Route path="system" element={<Index />} />
+          <Route path="dashboard" element={<DashboardView />} />
+          <Route path="users" element={<UsersView />} />
+          <Route path="financials" element={<FinancialsView />} />
+          <Route path="system" element={<SystemToolsView />} />
         </Route>
       </Routes>
       <Toaster />
